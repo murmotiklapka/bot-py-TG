@@ -1,1 +1,1 @@
-TG_API_TOKEN = "add your tokin from DotFather"
+TG_API_TOKEN = "8225040696:AAHiA0Moyd5IRoTZXG-KUGB5MloBuHehh4A"

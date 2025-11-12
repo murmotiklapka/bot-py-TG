@@ -1,8 +1,27 @@
 import telebot
+from bot_manyflip import many_flip
+from bot_logic import gen_pass
+from bot_zetat import zetatfunc
 from setings import TG_API_TOKEN
 import time, threading, schedule
 
 bot = telebot.TeleBot(TG_API_TOKEN)
+
+bot.message_handler(commands=['begin'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь!")
+
+@bot.message_handler(commands=['coinflip'])
+def send_hello(message):
+    bot.reply_to(message, many_flip())
+
+@bot.message_handler(commands=['password'])
+def send_bye(message):
+    bot.reply_to(message, gen_pass())
+
+@bot.message_handler(commands=['zytata'])
+def send_zedat(message):
+    bot.reply_to(message, zetatfunc())
 
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
