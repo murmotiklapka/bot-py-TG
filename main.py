@@ -7,6 +7,17 @@ import time, threading, schedule
 
 bot = telebot.TeleBot(TG_API_TOKEN)
 
+def get_duck_image_url():    
+        url = 'https://random-d.uk/api/random'
+        res = requests.get(url)
+        data = res.json()
+        return data['url']
+    
+@bot.message_handler(commands=['duck'])
+def duck(message):
+    image_url = get_duck_image_url()
+    bot.reply_to(message, image_url)
+
 bot.message_handler(commands=['begin'])
 def send_welcome(message):
     bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь!")
@@ -66,5 +77,6 @@ if __name__ == '__main__':
     while True:
         schedule.run_pending()
         time.sleep(1)
+
 
 bot.polling()
