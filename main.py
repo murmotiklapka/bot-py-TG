@@ -1,4 +1,5 @@
-import telebot
+import telebot,requests,random
+from random import choice
 from bot_manyflip import many_flip
 from bot_logic import gen_pass
 from bot_zetat import zetatfunc
@@ -80,3 +81,4 @@ if __name__ == '__main__':
 
 
 bot.polling()
+
