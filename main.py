@@ -1,5 +1,5 @@
 import telebot,requests,random
-from random import choice
+from random import choice,randint
 from bot_manyflip import many_flip
 from bot_logic import gen_pass
 from bot_zetat import zetatfunc
@@ -7,13 +7,33 @@ from setings import TG_API_TOKEN
 import time, threading, schedule
 
 bot = telebot.TeleBot(TG_API_TOKEN)
+list_razlagenia = [
+"Органика : 2–6 месяцев",
+"Бумага : 1–5 месяцев (иногда до года, если покрыта краской или ламинацией)",
+"Картон : 2–12 месяцев,",
+"Ткань из хлопка/льна : 1–5 месяцев",
+"Сигаретные окурки : 1–5 лет",
+"Жевательная резинка : 20–30 лет",
+"Пластик : 100–500 лет и больше",
+"Стекло : фактически не разлагается (до миллиона лет)",
+"Алюминиевые банки : 80–200 лет",
+"Жестяные банки : 50–100 лет",
+"Батарейки : 50–100 лет (опасны из:за токсичных металлов)"
+]
 
 def get_duck_image_url():    
         url = 'https://random-d.uk/api/random'
         res = requests.get(url)
         data = res.json()
         return data['url']
-    
+
+@bot.message_handler(commands=["hi"])
+def start_komands(message):
+    musornom = len(list_razlagenia) -1
+    musornom1 = randint(0, musornom)
+    musor = list_razlagenia[musornom1]
+    bot.send_message(message.chat.id, musor)
+
 @bot.message_handler(commands=['duck'])
 def duck(message):
     image_url = get_duck_image_url()
@@ -34,11 +54,11 @@ def send_bye(message):
 @bot.message_handler(commands=['zytata'])
 def send_zedat(message):
     bot.reply_to(message, zetatfunc())
-
+    
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
     bot.reply_to(message, f'Привет! Я бот {bot.get_me().first_name}!')
-
+    bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}!\nЯ бот который рассказывает о времени разложения разных вещей напиши команду hi')
 @bot.message_handler(content_types= ["sticker"])
 def send_stik(message):
     bot.reply_to(message, 'Привет! Я бот!')
@@ -81,4 +101,5 @@ if __name__ == '__main__':
 
 
 bot.polling()
+
 
